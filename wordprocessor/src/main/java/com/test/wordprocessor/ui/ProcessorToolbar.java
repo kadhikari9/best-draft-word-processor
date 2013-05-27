@@ -7,13 +7,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
@@ -40,6 +46,9 @@ public class ProcessorToolbar extends HasTextComponent {
 	private boolean boldFlag;
 	private boolean italicFlag;
 
+	private String[] fontNames;
+	private Vector<String> filteredFonts;
+
 	public ProcessorToolbar(JToolBar toolBar) {
 		this.toolBar = toolBar;
 		toolBar.setFloatable(false);
@@ -64,7 +73,11 @@ public class ProcessorToolbar extends HasTextComponent {
 		fileOpenButton.setBorderPainted(false);
 		fileSaveButton.setBorderPainted(false);
 
-		fontSelector = new JComboBox(getFonts());
+		fontSelector = new JComboBox();
+		setFonts();
+
+		fontSelector.setModel(new ComboBoxModel(filteredFonts));
+		fontSelector.setPrototypeDisplayValue("XXXXXXXXXXXXXXXXXXXXXXXXXXX");
 		fontSizeSelector = new JComboBox(getFontSizes());
 		fontSelector.setEditable(true);
 		fontSizeSelector.setEditable(true);
@@ -92,7 +105,45 @@ public class ProcessorToolbar extends HasTextComponent {
 		initFontAction();
 	}
 
+	private class ComboBoxModel extends DefaultComboBoxModel {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 885419683586730974L;
+
+		public ComboBoxModel(Vector<?> vector) {
+			super(vector);
+		}
+
+		@Override
+		public int getSize() {
+			return filteredFonts.size();
+		}
+
+		@Override
+		public Object getElementAt(int index) {
+			if (index >= 0 && index < filteredFonts.size())
+				return filteredFonts.elementAt(index);
+			else
+				return null;
+		}
+	}
+
 	private void initFontAction() {
+		final JTextField textField = (JTextField) fontSelector.getEditor()
+				.getEditorComponent();
+
+		textField.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					filterFonts(textField.getText());
+				}
+			}
+		});
+
 		fontSelector.addItemListener(new ItemListener() {
 
 			public void itemStateChanged(ItemEvent e) {
@@ -172,17 +223,38 @@ public class ProcessorToolbar extends HasTextComponent {
 		});
 	}
 
-	private Object[] getFonts() {
+	private void filterFonts(String filter) {
+		if (!fontSelector.isPopupVisible()) {
+			fontSelector.showPopup();
+		}
+
+		filteredFonts = new Vector<String>();
+		for (String s : fontNames) {
+			if (filter.isEmpty()) {
+				filteredFonts.add(s);
+			} else if (s.toLowerCase().startsWith(filter.toLowerCase())) {
+				filteredFonts.add(s);
+			}
+		}
+		DefaultComboBoxModel model = (DefaultComboBoxModel) fontSelector
+				.getModel();
+		model.removeAllElements();
+		for (String s : filteredFonts) {
+			model.addElement(s);
+		}
+	}
+
+	private void setFonts() {
 		GraphicsEnvironment e = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
 		Font[] allFonts = e.getAllFonts();
-		String[] fontNames = new String[allFonts.length];
+		fontNames = new String[allFonts.length];
 		int i = 0;
 		for (Font f : allFonts) {
 			fontNames[i] = f.getName();
 			i++;
 		}
-		return fontNames;
+		filteredFonts = new Vector<String>(Arrays.asList(fontNames));
 	}
 
 	private Object[] getFontSizes() {
