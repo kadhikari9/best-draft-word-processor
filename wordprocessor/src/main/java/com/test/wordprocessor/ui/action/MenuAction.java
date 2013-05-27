@@ -1,16 +1,18 @@
 package com.test.wordprocessor.ui.action;
 
-import java.awt.event.ActionEvent;
-
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.JEditorPane;
 import javax.swing.KeyStroke;
 
-public class MenuAction extends AbstractAction {
+public abstract class MenuAction extends AbstractAction {
 
 	/**
 	 * 
 	 */
+
+	protected JEditorPane textComponent;
+
 	private static final long serialVersionUID = -6037521297853552947L;
 
 	public MenuAction(String text, ImageIcon icon, Integer mnemonic) {
@@ -22,9 +24,12 @@ public class MenuAction extends AbstractAction {
 		putValue(ACCELERATOR_KEY, keyStroke);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	public JEditorPane getTextComponent() {
+		return textComponent;
+	}
 
+	public void setTextComponent(JEditorPane textComponent) {
+		this.textComponent = textComponent;
 	}
 
 }

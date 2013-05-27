@@ -10,9 +10,9 @@ public class AppMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-		MainFrame frame=new MainFrame("BestDraft Word Processor");
-		frame.setBounds(420, 120, 500, 500);
+
+		MainFrame frame = new MainFrame("BestDraft Word Processor");
+		frame.setBounds(320, 120, 600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}

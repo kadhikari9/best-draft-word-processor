@@ -8,11 +8,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import com.test.wordprocessor.constants.MenuConstants;
-import com.test.wordprocessor.factory.ActionFactory;
 
-public class ProcessorMenu {
-
-	private final ActionFactory actionFactory;
+public class ProcessorMenu extends HasTextComponent {
 
 	private final JMenuBar menuBar;
 	private JMenu fileMenu;
@@ -31,7 +28,6 @@ public class ProcessorMenu {
 
 	public ProcessorMenu(JMenuBar menuBar) {
 		this.menuBar = menuBar;
-		actionFactory = ActionFactory.getInstance();
 	}
 
 	public void initMenu() {
@@ -47,10 +43,17 @@ public class ProcessorMenu {
 
 	private void addMenuItems() {
 
-		Action fileNewMenuAction = actionFactory.getNewMenuAction();
-		Action openMenuAction = actionFactory.getOpenMenuAction();
-		Action saveMenuAction = actionFactory.getSaveMenuAction();
-		Action exitAction = actionFactory.getExitMenuAction();
+		Action fileNewMenuAction = actionManager
+				.getMenuAction(MenuConstants.NEW);
+		Action openMenuAction = actionManager.getMenuAction(MenuConstants.OPEN);
+		Action saveMenuAction = actionManager.getMenuAction(MenuConstants.SAVE);
+		Action exitAction = actionManager.getMenuAction(MenuConstants.EXIT);
+		Action cutMenuAction = actionManager.getMenuAction(MenuConstants.CUT);
+		Action copyMenuAction = actionManager.getMenuAction(MenuConstants.COPY);
+		Action pasteMenuAction = actionManager
+				.getMenuAction(MenuConstants.PASTE);
+		Action undoMenuAction = actionManager.getMenuAction(MenuConstants.UNDO);
+		Action redoMenuAction = actionManager.getMenuAction(MenuConstants.REDO);
 
 		fileNew = new JMenuItem(fileNewMenuAction);
 		fileOpen = new JMenuItem(openMenuAction);
@@ -64,12 +67,6 @@ public class ProcessorMenu {
 		fileMenu.addSeparator();
 
 		fileMenu.add(fileExit);
-
-		Action cutMenuAction = actionFactory.getCutMenuAction();
-		Action copyMenuAction = actionFactory.getCopyMenuAction();
-		Action pasteMenuAction = actionFactory.getPasteMenuAction();
-		Action undoMenuAction = actionFactory.getUndoMenuAction();
-		Action redoMenuAction = actionFactory.getRedoMenuAction();
 
 		copy = new JMenuItem(copyMenuAction);
 		cut = new JMenuItem(cutMenuAction);
