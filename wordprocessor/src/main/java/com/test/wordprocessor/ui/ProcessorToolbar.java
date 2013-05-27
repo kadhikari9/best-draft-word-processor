@@ -32,12 +32,21 @@ public class ProcessorToolbar extends HasTextComponent {
 	private JToggleButton fontBoldToggle;
 	private JToggleButton fontItalicsToggle;
 
+	private final ImageIcon boldDisable;
+	private final ImageIcon boldEnable;
+	private final ImageIcon italicDisable;
+	private final ImageIcon italicEnable;
+
 	private boolean boldFlag;
 	private boolean italicFlag;
 
 	public ProcessorToolbar(JToolBar toolBar) {
 		this.toolBar = toolBar;
 		toolBar.setFloatable(false);
+		boldDisable = new ImageIcon(IconPaths.FONT_BOLD_DISABLE);
+		boldEnable = new ImageIcon(IconPaths.FONT_BOLD_ENABLE);
+		italicDisable = new ImageIcon(IconPaths.FONT_ITALIC_DISABLE);
+		italicEnable = new ImageIcon(IconPaths.FONT_ITALIC_ENABLE);
 	}
 
 	public void initToolBar() {
@@ -60,10 +69,8 @@ public class ProcessorToolbar extends HasTextComponent {
 		fontSelector.setEditable(true);
 		fontSizeSelector.setEditable(true);
 
-		fontBoldToggle = new JToggleButton(new ImageIcon(
-				IconPaths.FONT_BOLD_DISABLE));
-		fontItalicsToggle = new JToggleButton(new ImageIcon(
-				IconPaths.FONT_ITALIC_DISABLE));
+		fontBoldToggle = new JToggleButton(boldDisable);
+		fontItalicsToggle = new JToggleButton(italicDisable);
 
 		fontBoldToggle.setBorderPainted(false);
 		fontItalicsToggle.setBorderPainted(false);
@@ -89,30 +96,39 @@ public class ProcessorToolbar extends HasTextComponent {
 		fontSelector.addItemListener(new ItemListener() {
 
 			public void itemStateChanged(ItemEvent e) {
-				fontManager.setFont(fontSelector.getSelectedItem().toString());
-
-			}
-		});
-
-		fontSizeSelector.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				String fontSize = fontSizeSelector.getSelectedItem().toString();
-				Integer size = getFontSize(fontSize);
-				if (size == null) {
-					JOptionPane.showMessageDialog(null, "Invalid font size.",
-							"Error", JOptionPane.ERROR_MESSAGE);
-				} else if (size < 8 || size > 72) {
-					JOptionPane.showMessageDialog(null,
-							"Font size must be in between 8 and 72.", "Error",
-							JOptionPane.ERROR_MESSAGE);
-				} else {
-					fontManager.setFontSize(size);
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					fontManager.setFont(fontSelector.getSelectedItem()
+							.toString());
 				}
-
 			}
 		});
-		System.out.println(fontSizeSelector.getActionListeners().length);
+
+		fontSizeSelector.addItemListener(new ItemListener() {
+
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					setFontSize();
+				}
+			}
+		});
+
+	}
+
+	private void setFontSize() {
+		String fontSize = fontSizeSelector.getSelectedItem().toString();
+		Integer size = getFontSize(fontSize);
+		if (size == null) {
+			JOptionPane.showMessageDialog(null, "Invalid font size.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			fontSizeSelector.setSelectedIndex(0);
+		} else if (size < 8 || size > 72) {
+			JOptionPane.showMessageDialog(null,
+					"Font size must be in between 8 and 72.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			fontSizeSelector.setSelectedIndex(0);
+		} else {
+			fontManager.setFontSize(size);
+		}
 	}
 
 	public Integer getFontSize(String size) {
@@ -131,8 +147,11 @@ public class ProcessorToolbar extends HasTextComponent {
 			public void actionPerformed(ActionEvent e) {
 				if (!boldFlag) {
 					boldFlag = true;
+					fontBoldToggle.setIcon(boldEnable);
+
 				} else {
 					boldFlag = false;
+					fontBoldToggle.setIcon(boldDisable);
 				}
 				fontManager.setBold(boldFlag);
 			}
@@ -143,8 +162,10 @@ public class ProcessorToolbar extends HasTextComponent {
 			public void actionPerformed(ActionEvent e) {
 				if (!italicFlag) {
 					italicFlag = true;
+					fontItalicsToggle.setIcon(italicEnable);
 				} else {
 					italicFlag = false;
+					fontItalicsToggle.setIcon(italicDisable);
 				}
 				fontManager.setItalics(italicFlag);
 			}
