@@ -9,7 +9,7 @@ public abstract class HasTextComponent {
 
 	protected JEditorPane textComponent;
 	protected final ActionManager actionManager;
-	protected FontManager fontManager;
+	protected final FontManager fontManager;
 
 	public HasTextComponent() {
 		actionManager = ActionManager.getInstance();
