@@ -3,6 +3,7 @@ package com.test.wordprocessor.ui.action;
 import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class NewFileMenuAction extends MenuAction {
 
@@ -16,8 +17,12 @@ public class NewFileMenuAction extends MenuAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		int confirm = JOptionPane.showConfirmDialog(null,
+				"Do you want to save this file?", "Mesage",
+				JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION);
+		if (confirm == JOptionPane.YES_OPTION) {
+			JOptionPane.showMessageDialog(null, "To do");
+		}
 	}
 
 }

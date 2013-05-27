@@ -1,10 +1,13 @@
 package com.test.wordprocessor.ui;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -22,6 +25,7 @@ public class MainFrame extends JFrame {
 	private JToolBar toolBar;
 	private ProcessorToolbar processorToolbar;
 	private JTabbedPane documentTab;
+	private JEditorPane textComponent;
 
 	public MainFrame(String title) {
 		super(title);
@@ -45,6 +49,32 @@ public class MainFrame extends JFrame {
 		this.add(panel, BorderLayout.NORTH);
 
 		initTab();
+		this.addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if (!textComponent.getText().isEmpty()) {
+					int confirm = JOptionPane.showConfirmDialog(null,
+							"Do you want to save this file?", "Mesage",
+							JOptionPane.YES_NO_CANCEL_OPTION,
+							JOptionPane.QUESTION_MESSAGE);
+					if (confirm == JOptionPane.YES_OPTION) {
+						JOptionPane.showMessageDialog(null, "To do");
+					}
+
+					else if (confirm == JOptionPane.CANCEL_OPTION) {
+						return;
+					}
+
+					else {
+						System.exit(0);
+					}
+				} else {
+					System.exit(0);
+				}
+			}
+
+		});
 	}
 
 	private void initTab() {
@@ -54,15 +84,15 @@ public class MainFrame extends JFrame {
 	}
 
 	public void addNewTab(String title, String text) {
-		JEditorPane textField = new JEditorPane();
-		textField.setText(text);
-		textField.setEditorKit(new StyledEditorKit());
-		JScrollPane scrollPane = new JScrollPane(textField);
+		textComponent = new JEditorPane();
+		textComponent.setText(text);
+		textComponent.setEditorKit(new StyledEditorKit());
+		JScrollPane scrollPane = new JScrollPane(textComponent);
 		documentTab.add(scrollPane);
 		documentTab.setTitleAt(0, title);
 
-		processorMenu.setTextComponent(textField);
-		processorToolbar.setTextComponent(textField);
+		processorMenu.setTextComponent(textComponent);
+		processorToolbar.setTextComponent(textComponent);
 
 	}
 }
