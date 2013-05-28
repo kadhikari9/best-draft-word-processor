@@ -14,6 +14,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.text.StyledEditorKit;
 
+import com.test.wordprocessor.ui.manager.FileManager;
+
 public class MainFrame extends JFrame {
 
 	/**
@@ -58,7 +60,9 @@ public class MainFrame extends JFrame {
 						JOptionPane.YES_NO_CANCEL_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 				if (confirm == JOptionPane.YES_OPTION) {
-					JOptionPane.showMessageDialog(null, "To do");
+					FileManager.getInstance().saveFile(
+							documentPanel.getSelectedEditor());
+					System.exit(0);
 				}
 
 				else if (confirm == JOptionPane.CANCEL_OPTION) {

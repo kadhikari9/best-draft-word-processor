@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-public class ExitMenuAction extends MenuAction {
+public class ExitMenuAction extends FileMenuAction {
 
 	/**
 	 * 
@@ -21,7 +21,8 @@ public class ExitMenuAction extends MenuAction {
 				"Do you want to save this file?", "Mesage",
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (confirm == JOptionPane.YES_OPTION) {
-			JOptionPane.showMessageDialog(null, "To do");
+			fileManager.saveFile(getActiveEditor());
+			System.exit(0);
 		}
 
 		else if (confirm == JOptionPane.CANCEL_OPTION) {

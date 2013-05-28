@@ -21,12 +21,13 @@ public class NewFileMenuAction extends FileMenuAction {
 				"Do you want to save this file?", "Mesage",
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (confirm == JOptionPane.YES_OPTION) {
-			JOptionPane.showMessageDialog(null, "To do");
+			fileManager.saveFile(getActiveEditor());
 		} else if (confirm == JOptionPane.CANCEL_OPTION) {
 			return;
 		}
 
 		else {
+			fileManager.setSelectedFile(null);
 			getActiveEditor().setText("");
 			documentPanel.setActiveTabTitle("");
 		}

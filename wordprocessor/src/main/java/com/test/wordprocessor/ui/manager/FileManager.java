@@ -3,11 +3,13 @@ package com.test.wordprocessor.ui.manager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
@@ -31,8 +33,55 @@ public class FileManager {
 		return fileChooser.getSelectedFile();
 	}
 
+	public void setSelectedFile(File file) {
+		fileChooser.setSelectedFile(file);
+	}
+
 	public void newFile(JEditorPane textEditorPane) {
 		fileChooser.setSelectedFile(null);
+	}
+
+	public void writeToFile(File file, String text) {
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(file);
+			out.write(text.getBytes());
+		} catch (IOException ioe) {
+
+		} finally {
+			try {
+				out.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	public void saveFile(JEditorPane textEditorPane) {
+		File old = getSelectedFile();
+		if (old != null) {
+			writeToFile(old, textEditorPane.getText());
+		} else {
+			int returnVal = fileChooser.showSaveDialog(null);
+
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File saveFile = fileChooser.getSelectedFile();
+				if (saveFile.exists()) {
+					int confirm = JOptionPane.showConfirmDialog(fileChooser,
+							"Do you want to overwrite this file?", "Mesage",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE);
+					if (confirm == JOptionPane.YES_OPTION) {
+						writeToFile(saveFile, textEditorPane.getText());
+					} else {
+						fileChooser.setSelectedFile(null);
+						return;
+					}
+				} else {
+					writeToFile(saveFile, textEditorPane.getText());
+				}
+			}
+		}
 	}
 
 	public void openFile(JEditorPane textComponent) {
@@ -51,7 +100,7 @@ public class FileManager {
 				String line;
 				while ((line = reader.readLine()) != null) {
 					styledDocument.insertString(styledDocument.getLength(),
-							line, new SimpleAttributeSet());
+							line + "\n", new SimpleAttributeSet());
 				}
 			} catch (IOException e) {
 				System.out.println(e.getMessage());

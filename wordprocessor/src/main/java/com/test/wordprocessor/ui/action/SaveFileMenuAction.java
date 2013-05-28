@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-public class SaveFileMenuAction extends MenuAction {
+public class SaveFileMenuAction extends FileMenuAction {
 
 	/**
 	 * 
@@ -16,8 +16,12 @@ public class SaveFileMenuAction extends MenuAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		fileManager.saveFile(getActiveEditor());
+		if (fileManager.getSelectedFile() != null
+				&& fileManager.getSelectedFile().exists()) {
+			documentPanel.setActiveTabTitle(fileManager.getSelectedFile()
+					.getName());
+		}
 	}
 
 }
