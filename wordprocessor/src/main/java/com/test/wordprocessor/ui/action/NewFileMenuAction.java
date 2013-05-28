@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-public class NewFileMenuAction extends MenuAction {
+public class NewFileMenuAction extends FileMenuAction {
 
 	/**
 	 * 
@@ -19,10 +19,18 @@ public class NewFileMenuAction extends MenuAction {
 	public void actionPerformed(ActionEvent e) {
 		int confirm = JOptionPane.showConfirmDialog(null,
 				"Do you want to save this file?", "Mesage",
-				JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION);
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (confirm == JOptionPane.YES_OPTION) {
 			JOptionPane.showMessageDialog(null, "To do");
+		} else if (confirm == JOptionPane.CANCEL_OPTION) {
+			return;
 		}
+
+		else {
+			getActiveEditor().setText("");
+			documentPanel.setActiveTabTitle("");
+		}
+
 	}
 
 }

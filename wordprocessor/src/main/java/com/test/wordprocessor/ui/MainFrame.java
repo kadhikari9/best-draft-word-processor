@@ -24,8 +24,7 @@ public class MainFrame extends JFrame {
 	private JMenuBar menuBar;
 	private JToolBar toolBar;
 	private ProcessorToolbar processorToolbar;
-	private JTabbedPane documentTab;
-	private JEditorPane textComponent;
+	private DocumentPanel documentPanel;
 
 	public MainFrame(String title) {
 		super(title);
@@ -33,6 +32,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void initComponents() {
+		documentPanel = new DocumentPanel();
 		menuBar = new JMenuBar();
 		toolBar = new JToolBar();
 		processorMenu = new ProcessorMenu(menuBar);
@@ -53,23 +53,19 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if (!textComponent.getText().isEmpty()) {
-					int confirm = JOptionPane.showConfirmDialog(null,
-							"Do you want to save this file?", "Mesage",
-							JOptionPane.YES_NO_CANCEL_OPTION,
-							JOptionPane.QUESTION_MESSAGE);
-					if (confirm == JOptionPane.YES_OPTION) {
-						JOptionPane.showMessageDialog(null, "To do");
-					}
+				int confirm = JOptionPane.showConfirmDialog(null,
+						"Do you want to save this file?", "Mesage",
+						JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+				if (confirm == JOptionPane.YES_OPTION) {
+					JOptionPane.showMessageDialog(null, "To do");
+				}
 
-					else if (confirm == JOptionPane.CANCEL_OPTION) {
-						return;
-					}
+				else if (confirm == JOptionPane.CANCEL_OPTION) {
+					return;
+				}
 
-					else {
-						System.exit(0);
-					}
-				} else {
+				else {
 					System.exit(0);
 				}
 			}
@@ -78,21 +74,25 @@ public class MainFrame extends JFrame {
 	}
 
 	private void initTab() {
-		documentTab = new JTabbedPane();
+		JTabbedPane documentTab = new JTabbedPane();
 		this.add(documentTab, BorderLayout.CENTER);
-		addNewTab("Untitled", "");
+		documentPanel.setTabbedPane(documentTab);
+		addNewTab();
 	}
 
-	public void addNewTab(String title, String text) {
-		textComponent = new JEditorPane();
-		textComponent.setText(text);
+	public void addNewTab() {
+		JEditorPane textComponent = new JEditorPane();
 		textComponent.setEditorKit(new StyledEditorKit());
 		JScrollPane scrollPane = new JScrollPane(textComponent);
-		documentTab.add(scrollPane);
-		documentTab.setTitleAt(0, title);
 
-		processorMenu.setTextComponent(textComponent);
-		processorToolbar.setTextComponent(textComponent);
+		JTabbedPane documentTab = documentPanel.getTabbedPane();
+
+		documentTab.add(scrollPane);
+		documentPanel.addNewEditor(textComponent);
+		documentPanel.setActiveTabTitle("");
+
+		processorMenu.setDocumentPanel(documentPanel);
+		processorToolbar.setDocumentPanel(documentPanel);
 
 	}
 }

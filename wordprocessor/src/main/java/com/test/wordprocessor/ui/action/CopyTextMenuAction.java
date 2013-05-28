@@ -16,6 +16,6 @@ public class CopyTextMenuAction extends MenuAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		this.textComponent.copy();
+		this.getActiveEditor().copy();
 	}
 }

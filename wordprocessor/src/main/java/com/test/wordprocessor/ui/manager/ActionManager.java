@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
-import javax.swing.JEditorPane;
 import javax.swing.KeyStroke;
 
 import com.test.wordprocessor.constants.IconPaths;
 import com.test.wordprocessor.constants.MenuConstants;
+import com.test.wordprocessor.ui.DocumentPanel;
 import com.test.wordprocessor.ui.action.CopyTextMenuAction;
 import com.test.wordprocessor.ui.action.CutTextMenuAction;
 import com.test.wordprocessor.ui.action.ExitMenuAction;
@@ -110,10 +110,10 @@ public class ActionManager {
 		return actionMap.get(key);
 	}
 
-	public void setTextComponent(JEditorPane textComponent) {
+	public void setDocumentPanel(DocumentPanel documentPanel) {
 		Set<String> keys = actionMap.keySet();
 		for (String key : keys) {
-			actionMap.get(key).setTextComponent(textComponent);
+			actionMap.get(key).setDocumentPanel(documentPanel);
 		}
 	}
 

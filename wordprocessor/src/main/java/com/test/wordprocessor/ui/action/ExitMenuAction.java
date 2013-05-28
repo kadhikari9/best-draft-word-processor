@@ -17,23 +17,18 @@ public class ExitMenuAction extends MenuAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (!textComponent.getText().isEmpty()) {
-			int confirm = JOptionPane.showConfirmDialog(null,
-					"Do you want to save this file?", "Mesage",
-					JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
-			if (confirm == JOptionPane.YES_OPTION) {
-				JOptionPane.showMessageDialog(null, "To do");
-			}
+		int confirm = JOptionPane.showConfirmDialog(null,
+				"Do you want to save this file?", "Mesage",
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (confirm == JOptionPane.YES_OPTION) {
+			JOptionPane.showMessageDialog(null, "To do");
+		}
 
-			else if (confirm == JOptionPane.CANCEL_OPTION) {
-				return;
-			}
+		else if (confirm == JOptionPane.CANCEL_OPTION) {
+			return;
+		}
 
-			else {
-				System.exit(0);
-			}
-		} else {
+		else {
 			System.exit(0);
 		}
 	}

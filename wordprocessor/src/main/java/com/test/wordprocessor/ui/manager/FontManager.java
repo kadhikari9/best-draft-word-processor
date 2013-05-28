@@ -8,9 +8,11 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import javax.swing.text.StyledEditorKit;
 
+import com.test.wordprocessor.ui.DocumentPanel;
+
 public class FontManager {
 
-	private JEditorPane textComponent;
+	private DocumentPanel documentPanel;
 	private final SimpleAttributeSet simpleAttributeSet;
 	private static FontManager instance;
 
@@ -25,26 +27,30 @@ public class FontManager {
 		return instance;
 	}
 
-	public void setTextComponent(JEditorPane textComponent) {
-		this.textComponent = textComponent;
+	public void setDocumentPanel(DocumentPanel documentPanel) {
+		this.documentPanel = documentPanel;
 	}
 
 	public void setBold(boolean bold) {
+		JEditorPane textComponent = documentPanel.getSelectedEditor();
 		StyleConstants.setBold(simpleAttributeSet, bold);
 		setCharacterAttributes(textComponent, simpleAttributeSet, true);
 	}
 
 	public void setItalics(boolean italics) {
+		JEditorPane textComponent = documentPanel.getSelectedEditor();
 		StyleConstants.setItalic(simpleAttributeSet, italics);
 		setCharacterAttributes(textComponent, simpleAttributeSet, true);
 	}
 
 	public void setFont(String font) {
+		JEditorPane textComponent = documentPanel.getSelectedEditor();
 		StyleConstants.setFontFamily(simpleAttributeSet, font);
 		setCharacterAttributes(textComponent, simpleAttributeSet, true);
 	}
 
 	public void setFontSize(int size) {
+		JEditorPane textComponent = documentPanel.getSelectedEditor();
 		StyleConstants.setFontSize(simpleAttributeSet, size);
 		setCharacterAttributes(textComponent, simpleAttributeSet, true);
 	}

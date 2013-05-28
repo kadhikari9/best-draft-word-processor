@@ -16,7 +16,7 @@ public class PasteTextMenuAction extends MenuAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		this.textComponent.paste();
+		this.getActiveEditor().paste();
 	}
 
 }

@@ -16,7 +16,7 @@ public class CutTextMenuAction extends MenuAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		this.textComponent.cut();
+		this.getActiveEditor().cut();
 	}
 
 }
