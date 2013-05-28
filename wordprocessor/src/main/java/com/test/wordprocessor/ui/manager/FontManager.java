@@ -34,40 +34,37 @@ public class FontManager {
 	public void setBold(boolean bold) {
 		JEditorPane textComponent = documentPanel.getSelectedEditor();
 		StyleConstants.setBold(simpleAttributeSet, bold);
-		setCharacterAttributes(textComponent, simpleAttributeSet, true);
+		setCharacterAttributes(textComponent, simpleAttributeSet);
 	}
 
 	public void setItalics(boolean italics) {
 		JEditorPane textComponent = documentPanel.getSelectedEditor();
 		StyleConstants.setItalic(simpleAttributeSet, italics);
-		setCharacterAttributes(textComponent, simpleAttributeSet, true);
+		setCharacterAttributes(textComponent, simpleAttributeSet);
 	}
 
 	public void setFont(String font) {
 		JEditorPane textComponent = documentPanel.getSelectedEditor();
 		StyleConstants.setFontFamily(simpleAttributeSet, font);
-		setCharacterAttributes(textComponent, simpleAttributeSet, true);
+		setCharacterAttributes(textComponent, simpleAttributeSet);
 	}
 
 	public void setFontSize(int size) {
 		JEditorPane textComponent = documentPanel.getSelectedEditor();
 		StyleConstants.setFontSize(simpleAttributeSet, size);
-		setCharacterAttributes(textComponent, simpleAttributeSet, true);
+		setCharacterAttributes(textComponent, simpleAttributeSet);
 	}
 
-	private void setCharacterAttributes(JEditorPane editor, AttributeSet attr,
-			boolean replace) {
+	private void setCharacterAttributes(JEditorPane editor, AttributeSet attr) {
 		int start = editor.getSelectionStart();
 		int end = editor.getSelectionEnd();
 		if (start != end) {
 			StyledDocument doc = (StyledDocument) editor.getDocument();
-			doc.setCharacterAttributes(start, end - start, attr, replace);
+			doc.setCharacterAttributes(start, end - start, attr, true);
 		}
 		StyledEditorKit k = (StyledEditorKit) editor.getEditorKit();
 		MutableAttributeSet inputAttributes = k.getInputAttributes();
-		if (replace) {
-			inputAttributes.removeAttributes(inputAttributes);
-		}
+		inputAttributes.removeAttributes(inputAttributes);
 		inputAttributes.addAttributes(attr);
 	}
 }
