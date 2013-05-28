@@ -9,17 +9,18 @@ import java.io.InputStreamReader;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
+
+import com.test.wordprocessor.ui.CustomFileChooser;
 
 public class FileManager {
 	private static FileManager instance;
 	private final JFileChooser fileChooser;
 
 	private FileManager() {
-		fileChooser = new JFileChooser();
+		fileChooser = new CustomFileChooser();
 	}
 
 	public static FileManager getInstance() {
@@ -66,20 +67,9 @@ public class FileManager {
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File saveFile = fileChooser.getSelectedFile();
-				if (saveFile.exists()) {
-					int confirm = JOptionPane.showConfirmDialog(fileChooser,
-							"Do you want to overwrite this file?", "Mesage",
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE);
-					if (confirm == JOptionPane.YES_OPTION) {
-						writeToFile(saveFile, textEditorPane.getText());
-					} else {
-						fileChooser.setSelectedFile(null);
-						return;
-					}
-				} else {
-					writeToFile(saveFile, textEditorPane.getText());
-				}
+				writeToFile(saveFile, textEditorPane.getText());
+			} else {
+				fileChooser.setSelectedFile(null);
 			}
 		}
 	}
