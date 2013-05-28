@@ -96,6 +96,8 @@ public class MainFrame extends JFrame {
 		documentPanel.setActiveTabTitle("");
 
 		processorMenu.setDocumentPanel(documentPanel);
+		processorMenu.setUndoManager();
+
 		processorToolbar.setDocumentPanel(documentPanel);
 
 	}

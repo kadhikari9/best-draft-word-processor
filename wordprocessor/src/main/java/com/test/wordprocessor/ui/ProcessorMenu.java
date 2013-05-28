@@ -8,6 +8,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import com.test.wordprocessor.constants.MenuConstants;
+import com.test.wordprocessor.ui.action.RedoEventMenuAction;
+import com.test.wordprocessor.ui.action.UndoEventMenuAction;
 
 public class ProcessorMenu extends HasDocumentComponent {
 
@@ -84,6 +86,19 @@ public class ProcessorMenu extends HasDocumentComponent {
 		undo.setEnabled(false);
 		redo.setEnabled(false);
 
+		undoRedoManager.setRedoMenu(redo);
+		undoRedoManager.setUndoMenu(undo);
+
+		UndoEventMenuAction undoEvent = (UndoEventMenuAction) undoMenuAction;
+		undoEvent.setUndoRedoManager(undoRedoManager);
+
+		RedoEventMenuAction redoEvent = (RedoEventMenuAction) redoMenuAction;
+		redoEvent.setUndoRedoManager(undoRedoManager);
 	}
 
+	public void setUndoManager() {
+		documentPanel.getSelectedEditor().getDocument()
+				.addUndoableEditListener(undoRedoManager);
+
+	}
 }
