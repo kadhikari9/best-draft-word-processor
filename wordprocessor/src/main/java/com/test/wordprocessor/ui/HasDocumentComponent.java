@@ -3,13 +3,13 @@ package com.test.wordprocessor.ui;
 import com.test.wordprocessor.ui.manager.ActionManager;
 import com.test.wordprocessor.ui.manager.FontManager;
 
-public abstract class HasTextComponent {
+public abstract class HasDocumentComponent {
 
 	protected DocumentPanel documentPanel;
 	protected final ActionManager actionManager;
 	protected final FontManager fontManager;
 
-	public HasTextComponent() {
+	public HasDocumentComponent() {
 		actionManager = ActionManager.getInstance();
 		fontManager = FontManager.getInstance();
 	}

@@ -9,7 +9,7 @@ import javax.swing.JMenuItem;
 
 import com.test.wordprocessor.constants.MenuConstants;
 
-public class ProcessorMenu extends HasTextComponent {
+public class ProcessorMenu extends HasDocumentComponent {
 
 	private final JMenuBar menuBar;
 	private JMenu fileMenu;
@@ -80,6 +80,9 @@ public class ProcessorMenu extends HasTextComponent {
 		editMenu.addSeparator();
 		editMenu.add(undo);
 		editMenu.add(redo);
+
+		undo.setEnabled(false);
+		redo.setEnabled(false);
 
 	}
 

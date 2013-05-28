@@ -26,7 +26,7 @@ import javax.swing.JToolBar;
 import com.test.wordprocessor.constants.IconPaths;
 import com.test.wordprocessor.constants.MenuConstants;
 
-public class ProcessorToolbar extends HasTextComponent {
+public class ProcessorToolbar extends HasDocumentComponent {
 
 	private final JToolBar toolBar;
 
